@@ -105,7 +105,9 @@ function el(tag,attrs,...kids){
     else if(k.startsWith("on"))n.addEventListener(k.slice(2),attrs[k]);
     else if(attrs[k]!=null)n.setAttribute(k,attrs[k]);
   }
-  kids.flat().forEach(c=>{ if(c==null)return; n.append(c.nodeType?c:document.createTextNode(c)); });
+  /* flat(Infinity): a child built by .map() that returns an array would otherwise
+     arrive as an Array and be stringified into the page. */
+  kids.flat(Infinity).forEach(c=>{ if(c==null)return; n.append(c.nodeType?c:document.createTextNode(c)); });
   return n;
 }
 function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
